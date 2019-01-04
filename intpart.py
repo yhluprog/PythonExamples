@@ -9,7 +9,7 @@ def printArray(arr, ind):
     print (str(arr[i]) + ' + ', end='')
   print (str(arr[ind - 1]))
 
-def partitionHelp(arr, ind, left, odd, even, order):
+def partitionHelp(arr, ind, left, odd, even, order, notself):
   if (left == 0):
     printArray(arr, ind)
   '''
@@ -18,7 +18,10 @@ def partitionHelp(arr, ind, left, odd, even, order):
   2. odd and i is odd
   3. even and i is even
   '''
-  for i in range(1, left + 1):
+  maxi = left + 1
+  if (notself):
+    maxi = left
+  for i in range(1, maxi):
     if (order and (ind != 0) and (arr[ind - 1] > i)):
       # orders do not matter
       # the numbers must not be decreasing
@@ -31,7 +34,7 @@ def partitionHelp(arr, ind, left, odd, even, order):
       arr[ind] = i
     else:
       continue # do not use this value of i
-    partitionHelp(arr, ind + 1, left - i, odd, even, order)
+    partitionHelp(arr, ind + 1, left - i, odd, even, order, notself)
 
 def partition(args):
   # print (args)
@@ -39,6 +42,7 @@ def partition(args):
   even = args.even
   order = args.order
   val = args.value
+  notself = args.notself
   if (odd and even):
     sys.exit('-e and -o cannot be both set')
   if (even and (val % 2)):
@@ -49,7 +53,7 @@ def partition(args):
   if (even):
     print('== Using only even numbers ==')
   arr = [0] * val
-  partitionHelp(arr, 0, val, odd, even, order)
+  partitionHelp(arr, 0, val, odd, even, order, notself)
 
 def checkArgs(args = None):
   parser = argparse.ArgumentParser(description='parse arguments')
@@ -59,6 +63,8 @@ def checkArgs(args = None):
                       help = 'even numbers only', default = False)
   parser.add_argument('-r', '--order',action='store_true',
                       help = 'orders do not matter', default = False)
+  parser.add_argument('-s', '--notself',action='store_true',
+                      help = 'not to include itself', default = False)
   parser.add_argument('value', type = int,
                       help = 'number to parition')
   pargs = parser.parse_args(args)
