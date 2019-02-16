@@ -11,17 +11,17 @@ def printArray(arr, ind):
 
 def partitionHelp(arr, ind, left, odd, even, order, notself):
   if (left == 0):
-    printArray(arr, ind)
+    # if notself and ind is 1, then only one number is printed
+    # this one number is itself
+    if ((not notself) or (ind > 1)):
+      printArray(arr, ind)
   '''
   There are four conditions when this i is used
   1. not odd and not even: 
   2. odd and i is odd
   3. even and i is even
   '''
-  maxi = left + 1
-  if (notself):
-    maxi = left
-  for i in range(1, maxi):
+  for i in range(1, left + 1):
     if (order and (ind != 0) and (arr[ind - 1] > i)):
       # orders do not matter
       # the numbers must not be decreasing
