@@ -37,7 +37,6 @@ def partitionHelp(arr, ind, left, odd, even, order, notself):
     partitionHelp(arr, ind + 1, left - i, odd, even, order, notself)
 
 def partition(args):
-  # print (args)
   odd = args.odd
   even = args.even
   order = args.order
